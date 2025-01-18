@@ -2,8 +2,6 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import Model.User;
 import Util.DBConnection;
@@ -12,7 +10,7 @@ import Util.PasswordUtil;
 public class UserDao {
 	PasswordUtil passwordUtil=new PasswordUtil();
 	public User Register(User user) {
-		String sql="insert into userprofile values(?,?,?,?,?,?,?)";
+	    String sql = "INSERT INTO userprofile (userid, fullname, email, mobilenumber, password, role, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		Connection conn=null;
 		try {
 			conn=DBConnection.getConnnection();

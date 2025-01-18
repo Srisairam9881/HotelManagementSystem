@@ -35,7 +35,7 @@ CREATE TABLE Reservation (
     CheckOutDate DATE NOT NULL,
     RoomTypeID INTEGER NOT NULL,
     NoOfRooms INTEGER NOT NULL,
-    Status VARCHAR(10) CHECK (Status IN ('Approved', 'Cancelled', 'Rejected')),
+    Status VARCHAR(10) CHECK (Status IN ('Approved', 'Cancelled', 'Rejected','Pending')),
     FOREIGN KEY (UserID) REFERENCES UserProfile(UserID),
     FOREIGN KEY (RoomTypeID) REFERENCES RoomType(RoomTypeID),
     PRIMARY KEY (ReservationID)

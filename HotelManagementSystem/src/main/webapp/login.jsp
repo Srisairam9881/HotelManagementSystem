@@ -113,7 +113,7 @@
 <div class="container">
     <h2>Login</h2>
     <form action="LoginController" method="post">
-        <input type="text" name="userId" id="userid" class="input-field" placeholder="Enter your user id" required />
+        <input type="number" name="userId" id="userid" class="input-field" placeholder="Enter your user id" required />
         <input type="password" name="Password" id="password" class="input-field" placeholder="Enter your password" required />
         <button class="button" type="submit">Login</button>
 

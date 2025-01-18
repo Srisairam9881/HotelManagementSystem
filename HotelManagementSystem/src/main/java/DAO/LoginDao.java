@@ -15,14 +15,13 @@ public class LoginDao {
             ps.setInt(1, uid);
             ps.setString(2, Util.PasswordUtil.hashPassword(password));
             ResultSet rs = ps.executeQuery();
-            return rs.next();  // Returns true if the user exists
+            return rs.next(); 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    // Method to get the role of the user
     public String getUserRole(int uid) {
         String query = "SELECT Role FROM userprofile WHERE UserID = ?";
         Connection connection = DBConnection.getConnnection();
@@ -37,7 +36,7 @@ public class LoginDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // No role found or invalid user
+        return null;
     }
     public String getUserName(int uid) {
         String query = "SELECT FullName FROM userprofile WHERE UserID = ?";

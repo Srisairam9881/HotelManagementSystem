@@ -24,4 +24,5 @@
 	    public User getUser(int uid) {
 	        return loginDao.getUser(uid);
 	    }
+	   
 	}
