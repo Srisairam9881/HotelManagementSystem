@@ -119,4 +119,39 @@ public class ReservationDao {
             e.printStackTrace();
         }
     }
+    public List<ReservationDetails> getReservationsHistoryByUserId(int userId) {
+        List<ReservationDetails> reservations = new ArrayList<>();
+
+        String sql = "SELECT u.fullname, rt.roomtypename, rt.price, r.reservationid, r.checkindate, r.checkoutdate, r.noofrooms, r.status "
+                   + "FROM reservation r "
+                   + "JOIN userprofile u ON r.userid = u.userid "
+                   + "JOIN roomtype rt ON r.roomtypeid = rt.roomtypeid "
+                   + "WHERE r.userid = ? AND r.checkoutdate < CURDATE()";//CAST(r.checkoutdate AS DATE) < CURRENT_DATE"
+
+        try (Connection conn = DBConnection.getConnnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int rid = rs.getInt("reservationid");
+                String fullName = rs.getString("fullname");
+                String roomTypeName = rs.getString("roomtypename");
+                double price = rs.getDouble("price");
+                Date checkInDate = rs.getDate("checkindate");
+                Date checkOutDate = rs.getDate("checkoutdate");
+                int noOfRooms = rs.getInt("noofrooms");
+                String status = rs.getString("status");
+
+                ReservationDetails reservationDetails = new ReservationDetails(rid, userId, checkInDate, checkOutDate, roomTypeName, noOfRooms, status, price, fullName);
+                reservations.add(reservationDetails);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reservations;
+    }
+    
 }

@@ -37,7 +37,7 @@ public class UserReservationController extends HttpServlet {
         List<ReservationDetails> reservations = reservationService.getReservationsByUserId(userId);
 
         request.setAttribute("reservations", reservations);
-        request.getRequestDispatcher("viewReservations.jsp").forward(request, response);
+        //request.getRequestDispatcher("viewReservations.jsp").forward(request, response);
     }
 
     @Override
@@ -46,19 +46,16 @@ public class UserReservationController extends HttpServlet {
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
 
-        // Validate if the user is logged in and has the correct role
         if (username == null || role == null || !role.equals("Customer")) {
             resp.sendRedirect("login.jsp");
             return;
         }
 
-        // Fetch the form parameters
         String checkInDateStr = req.getParameter("checkInDate");
         String checkOutDateStr = req.getParameter("checkOutDate");
         String roomTypeName = req.getParameter("roomType");
         String noOfRoomsStr = req.getParameter("noOfRooms");
 
-        // Validate that all required fields are filled in
         if (checkInDateStr == null || checkOutDateStr == null || roomTypeName == null || noOfRoomsStr == null) {
             req.setAttribute("error", "All fields are required.");
             req.getRequestDispatcher("customerHomePage.jsp").forward(req, resp);
@@ -90,7 +87,7 @@ public class UserReservationController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             req.setAttribute("error", "Invalid input. Please check your data.");
-            req.getRequestDispatcher("customerHomePage.jsp").forward(req, resp);
+            req.getRequestDispatcher("customerPage.jsp").forward(req, resp);
         }
     }
 }

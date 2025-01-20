@@ -23,4 +23,7 @@ public class ReservationService {
     public void editReservationDetails(Reservation reservation) {
     	reservationDao.updateReservation(reservation);
     }
+    public List<ReservationDetails> getReservationsHistoryByUserId(int userId) {
+       return reservationDao.getReservationsHistoryByUserId(userId);
+    }
 }
