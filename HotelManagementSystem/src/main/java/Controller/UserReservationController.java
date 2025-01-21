@@ -23,24 +23,6 @@ public class UserReservationController extends HttpServlet {
     private RoomTypeService roomTypeService = new RoomTypeService();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-
-        // Check if the user is logged in
-        if (session == null || session.getAttribute("userid") == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        int userId = (int) session.getAttribute("userid");
-        
-        List<ReservationDetails> reservations = reservationService.getReservationsByUserId(userId);
-
-        request.setAttribute("reservations", reservations);
-        //request.getRequestDispatcher("viewReservations.jsp").forward(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String username = (String) session.getAttribute("username");
@@ -82,7 +64,11 @@ public class UserReservationController extends HttpServlet {
 
             reservationService.BookReservation(reservation);
 
-            resp.sendRedirect("customerHomePage.jsp");
+            List<ReservationDetails> reservations = reservationService.getReservationsByUserId(userId);
+            List<ReservationDetails> historyReservations=reservationService.getReservationsHistoryByUserId(userId);
+            session.setAttribute("reservations", reservations);
+            session.setAttribute("reservationsHistory", historyReservations);
+            resp.sendRedirect("customerPage.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();

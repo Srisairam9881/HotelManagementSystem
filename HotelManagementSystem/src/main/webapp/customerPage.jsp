@@ -218,8 +218,9 @@
             </thead>
             <tbody>
                 <%
-                    ReservationService reservationService = new ReservationService();
-                    List<ReservationDetails> reservations = reservationService.getReservationsByUserId(uid);
+                   List<ReservationDetails> reservations=(List<ReservationDetails>) session.getAttribute("reservations");
+                    //ReservationService reservationService = new ReservationService();
+                    //List<ReservationDetails> reservations = reservationService.getReservationsByUserId(uid);
                     if (reservations != null && !reservations.isEmpty()) {
                         for (ReservationDetails reservation : reservations) {
                 %>
@@ -261,7 +262,7 @@
             </thead>
             <tbody>
                 <%
-                    List<ReservationDetails> historyReservations = reservationService.getReservationsByUserId(uid);
+                    List<ReservationDetails> historyReservations = (List<ReservationDetails>) session.getAttribute("reservations");
                     if (historyReservations != null && !historyReservations.isEmpty()) {
                         for (ReservationDetails reservation : historyReservations) {
                 %>
