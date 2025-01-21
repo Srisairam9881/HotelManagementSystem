@@ -28,17 +28,15 @@ public class UserController extends HttpServlet {
         String pass = request.getParameter("Password");
         String role = "Customer";
         
-        // Create User object (mock)
         User user = new User(id, fname, email, mobile, add, pass, role);
         
-        // Register user in the database (assuming the UserService is handling this)
         UserService us = new UserService();
         us.Register(user);
         
-        // Add the user ID to the session to persist across redirects
+        
         request.getSession().setAttribute("userId", id);
         
-        // Redirect to the same page after successful registration
+        
         response.sendRedirect("signup.jsp");
     }
 }

@@ -66,23 +66,18 @@ public class ReservationDao {
         return reservations;
     }
 
-    // Fetch reservation details by reservation ID
-    public ReservationDetails getReservationById(int reservationId) {
-        ReservationDetails reservationDetails = null;
+    public List<ReservationDetails> getAllReservation() {
         
-        String sql = "SELECT u.fullname, rt.roomtypename, rt.price, r.reservationid,r.checkindate, r.checkoutdate, r.noofrooms, r.status "
+        String sql = "SELECT u.userid,u.fullname, rt.roomtypename, rt.price, r.reservationid,r.checkindate, r.checkoutdate, r.noofrooms, r.status "
                    + "FROM reservation r "
                    + "JOIN userprofile u ON r.userid = u.userid "
-                   + "JOIN roomtype rt ON r.roomtypeid = rt.roomtypeid "
-                   + "WHERE r.reservationid = ?";
-
+                   + "JOIN roomtype rt ON r.roomtypeid = rt.roomtypeid ";
+        List<ReservationDetails> res=new ArrayList<ReservationDetails>();
         try (Connection conn = DBConnection.getConnnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, reservationId);
             ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
+            while(rs.next()) {
             	int rid=rs.getInt("reservationid");
                 int userId = rs.getInt("userid");
                 String fullName = rs.getString("fullname");
@@ -93,26 +88,25 @@ public class ReservationDao {
                 int noOfRooms = rs.getInt("noofrooms");
                 String status = rs.getString("status");
 
-                reservationDetails = new ReservationDetails(rid,userId, checkInDate, checkOutDate, roomTypeName, noOfRooms, status, price, fullName);
+                res.add(new ReservationDetails(rid,userId, checkInDate, checkOutDate, roomTypeName, noOfRooms, status, price, fullName));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return reservationDetails;
+        return res;
     }
-    public void updateReservation(Reservation reservation) {
+    public void updateReservation(Reservation reservation,int rid) {
         String sql = "UPDATE reservation SET checkindate = ?, checkoutdate = ?, noofrooms = ?, status = ? WHERE reservationid = ?";
-
+        
         try (Connection conn = DBConnection.getConnnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setDate(1, reservation.getCheckInDate());
             stmt.setDate(2, reservation.getCheckOutDate());
             stmt.setInt(3, reservation.getNoOfRooms());
             stmt.setString(4, reservation.getStatus());
             stmt.setInt(5, reservation.getReservationId());
-
+            stmt.setInt(6, rid);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -126,7 +120,7 @@ public class ReservationDao {
                    + "FROM reservation r "
                    + "JOIN userprofile u ON r.userid = u.userid "
                    + "JOIN roomtype rt ON r.roomtypeid = rt.roomtypeid "
-                   + "WHERE r.userid = ? AND r.checkoutdate < CURDATE()";//CAST(r.checkoutdate AS DATE) < CURRENT_DATE"
+                   + "WHERE r.userid = ? AND r.checkoutdate < CURDATE()";
 
         try (Connection conn = DBConnection.getConnnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -153,5 +147,6 @@ public class ReservationDao {
 
         return reservations;
     }
+ 
     
 }

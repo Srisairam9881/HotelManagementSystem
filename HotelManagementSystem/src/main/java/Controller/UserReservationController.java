@@ -66,6 +66,7 @@ public class UserReservationController extends HttpServlet {
 
             List<ReservationDetails> reservations = reservationService.getReservationsByUserId(userId);
             List<ReservationDetails> historyReservations=reservationService.getReservationsHistoryByUserId(userId);
+            List<ReservationDetails> AllReservation=reservationService.getReservationsHistoryByUserId(userId);
             session.setAttribute("reservations", reservations);
             session.setAttribute("reservationsHistory", historyReservations);
             resp.sendRedirect("customerPage.jsp");

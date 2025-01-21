@@ -20,10 +20,13 @@ public class ReservationService {
     public List<ReservationDetails> getReservationsByUserId(int userId) {
         return reservationDao.getReservationsByUserId(userId);
     }
-    public void editReservationDetails(Reservation reservation) {
-    	reservationDao.updateReservation(reservation);
+    public void editReservationDetails(Reservation reservation,int rid) {
+    	reservationDao.updateReservation(reservation,rid);
     }
     public List<ReservationDetails> getReservationsHistoryByUserId(int userId) {
        return reservationDao.getReservationsHistoryByUserId(userId);
     }
+    public List<ReservationDetails> getAllReservation() {
+        return reservationDao.getAllReservation();
+     }
 }

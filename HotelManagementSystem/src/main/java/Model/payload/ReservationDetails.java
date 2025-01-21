@@ -16,7 +16,6 @@ public class ReservationDetails {
     private String fullName;
     private double price;
 
-    // Constructor to handle the fields related to user reservation
     public ReservationDetails(int reservationId,int userId, Date checkInDate, Date checkOutDate, String roomTypeName, int noOfRooms, String status, double price, String fullName) {
         this.reservationId=reservationId;
     	this.userId = userId;
